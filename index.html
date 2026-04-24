@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+<meta charset="UTF-8">
+<title>Love Space ❤️</title>
+<style>
+body {
+    margin: 0;
+    font-family: Arial;
+    background: linear-gradient(135deg, #0f0f0f, #1a001a);
+    color: white;
+    text-align: center;
+    overflow-x: hidden;
+}
+
+.login {
+    margin-top: 150px;
+}
+
+input {
+    padding: 10px;
+    border: none;
+    border-radius: 10px;
+    width: 200px;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    background: #ff0055;
+    color: white;
+    cursor: pointer;
+    margin-top: 10px;
+}
+
+.hidden {
+    display: none;
+}
+
+.heart {
+    font-size: 30px;
+    cursor: pointer;
+}
+
+.counter {
+    margin-top: 20px;
+    font-size: 20px;
+}
+
+.secret {
+    margin-top: 20px;
+    display: none;
+    font-size: 18px;
+    color: pink;
+}
+</style>
+</head>
+
+<body>
+
+<!-- تسجيل الدخول -->
+<div id="login" class="login">
+    <h2>🔐 ادخل الباسورد</h2>
+    <input type="password" id="pass">
+    <br>
+    <button onclick="check()">دخول</button>
+</div>
+
+<!-- الموقع -->
+<div id="site" class="hidden">
+
+    <h1>❤️ Love Space</h1>
+    <p>موقع خاص بالحب بس 💕</p>
+
+    <div class="counter" id="counter"></div>
+
+    <button class="heart" onclick="love()">❤️ بحبك</button>
+
+    <br><br>
+    <button onclick="showSecret()">💌 رسالة سرية</button>
+
+    <div class="secret" id="secret">
+        بحبك أكتر من أي حاجة في الدنيا ❤️
+    </div>
+
+</div>
+
+<script>
+// الباسورد
+function check(){
+    let pass = document.getElementById("pass").value;
+    if(pass === "1234"){
+        document.getElementById("login").style.display="none";
+        document.getElementById("site").style.display="block";
+        startCounter();
+    } else {
+        alert("غلط يا بطل 😅");
+    }
+}
+
+// عداد حب
+let startDate = new Date("2024-01-01"); // غير التاريخ هنا
+function startCounter(){
+    setInterval(()=>{
+        let now = new Date();
+        let diff = now - startDate;
+        let days = Math.floor(diff / (1000*60*60*24));
+        document.getElementById("counter").innerHTML =
+        "❤️ مع بعض من: " + days + " يوم";
+    },1000);
+}
+
+// زر القلب
+function love(){
+    let heart = document.createElement("div");
+    heart.innerHTML = "❤️";
+    heart.style.position="fixed";
+    heart.style.left=Math.random()*100+"vw";
+    heart.style.top="100vh";
+    heart.style.fontSize="20px";
+    document.body.appendChild(heart);
+
+    let move = setInterval(()=>{
+        heart.style.top = heart.offsetTop - 5 + "px";
+        if(heart.offsetTop < 0){
+            heart.remove();
+            clearInterval(move);
+        }
+    },20);
+}
+
+// رسالة سرية
+function showSecret(){
+    document.getElementById("secret").style.display="block";
+}
+</script>
+
+</body>
+      </html>
