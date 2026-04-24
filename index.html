@@ -2,105 +2,154 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>Love Space ❤️</title>
+<title>LoveSpace Pro ❤️</title>
+
 <style>
 body {
     margin: 0;
     font-family: Arial;
-    background: linear-gradient(135deg, #0f0f0f, #1a001a);
+    background: radial-gradient(circle, #120018, #000);
     color: white;
     text-align: center;
-    overflow-x: hidden;
 }
 
+/* Neon Title */
+h1 {
+    color: #ff2e7a;
+    text-shadow: 0 0 10px #ff2e7a, 0 0 20px #ff2e7a;
+    margin-top: 20px;
+}
+
+/* Login */
 .login {
-    margin-top: 150px;
+    margin-top: 120px;
 }
 
 input {
     padding: 10px;
-    border: none;
     border-radius: 10px;
+    border: none;
     width: 200px;
 }
 
 button {
-    padding: 10px 20px;
+    padding: 10px 15px;
     border: none;
     border-radius: 10px;
-    background: #ff0055;
+    background: #ff2e7a;
     color: white;
     cursor: pointer;
     margin-top: 10px;
 }
 
-.hidden {
-    display: none;
+/* Neon Cards */
+.card {
+    background: rgba(255,255,255,0.05);
+    margin: 20px;
+    padding: 15px;
+    border-radius: 15px;
+    box-shadow: 0 0 15px #ff2e7a33;
 }
 
-.heart {
-    font-size: 30px;
-    cursor: pointer;
+/* Gallery */
+img {
+    width: 100px;
+    height: 100px;
+    margin: 5px;
+    border-radius: 10px;
+    object-fit: cover;
 }
 
-.counter {
-    margin-top: 20px;
-    font-size: 20px;
+/* Chat */
+.chat-box {
+    height: 200px;
+    overflow-y: scroll;
+    background: #111;
+    padding: 10px;
+    border-radius: 10px;
 }
 
-.secret {
-    margin-top: 20px;
-    display: none;
-    font-size: 18px;
-    color: pink;
+.msg {
+    text-align: left;
+    margin: 5px 0;
+}
+
+/* Mobile */
+@media(max-width:600px){
+    img { width: 70px; height: 70px; }
 }
 </style>
 </head>
 
 <body>
 
-<!-- تسجيل الدخول -->
+<!-- MUSIC -->
+<audio id="music" loop>
+<source src="music.mp3" type="audio/mp3">
+</audio>
+
+<!-- LOGIN -->
 <div id="login" class="login">
-    <h2>🔐 ادخل الباسورد</h2>
+    <h2>🔐 دخول LoveSpace</h2>
     <input type="password" id="pass">
     <br>
-    <button onclick="check()">دخول</button>
+    <button onclick="login()">دخول</button>
 </div>
 
-<!-- الموقع -->
-<div id="site" class="hidden">
+<!-- SITE -->
+<div id="site" style="display:none;">
 
-    <h1>❤️ Love Space</h1>
-    <p>موقع خاص بالحب بس 💕</p>
+<h1>❤️ LoveSpace Pro</h1>
 
-    <div class="counter" id="counter"></div>
+<div class="card">
+    <h3>⏳ عداد الحب</h3>
+    <p id="counter"></p>
+</div>
 
-    <button class="heart" onclick="love()">❤️ بحبك</button>
+<div class="card">
+    <h3>📸 ألبوم صور</h3>
+    <img src="https://picsum.photos/100?1">
+    <img src="https://picsum.photos/100?2">
+    <img src="https://picsum.photos/100?3">
+</div>
 
-    <br><br>
-    <button onclick="showSecret()">💌 رسالة سرية</button>
+<div class="card">
+    <h3>❤️ زر الحب</h3>
+    <button onclick="love()">بحبك</button>
+</div>
 
-    <div class="secret" id="secret">
-        بحبك أكتر من أي حاجة في الدنيا ❤️
-    </div>
+<div class="card">
+    <h3>💬 شات بينكم (تجريبي)</h3>
+    <div class="chat-box" id="chat"></div>
+    <input id="msg" placeholder="اكتب رسالة">
+    <button onclick="send()">إرسال</button>
+</div>
 
 </div>
 
 <script>
-// الباسورد
-function check(){
-    let pass = document.getElementById("pass").value;
-    if(pass === "1234"){
+
+// 🔐 باسورد متغير يومي
+function getPass(){
+    let d = new Date().getDate();
+    return "love" + (1000 + d);
+}
+
+function login(){
+    let p = document.getElementById("pass").value;
+    if(p === getPass()){
         document.getElementById("login").style.display="none";
         document.getElementById("site").style.display="block";
+        document.getElementById("music").play();
         startCounter();
     } else {
-        alert("غلط يا بطل 😅");
+        alert("❌ باسورد غلط (جرب اليومي)");
     }
 }
 
-// عداد حب
-let startDate = new Date("2024-01-01"); // غير التاريخ هنا
+// ⏳ عداد
+let startDate = new Date("2024-01-01");
+
 function startCounter(){
     setInterval(()=>{
         let now = new Date();
@@ -111,30 +160,33 @@ function startCounter(){
     },1000);
 }
 
-// زر القلب
+// ❤️ قلوب
 function love(){
-    let heart = document.createElement("div");
-    heart.innerHTML = "❤️";
-    heart.style.position="fixed";
-    heart.style.left=Math.random()*100+"vw";
-    heart.style.top="100vh";
-    heart.style.fontSize="20px";
-    document.body.appendChild(heart);
+    let c = document.createElement("div");
+    c.innerHTML="❤️";
+    c.style.position="fixed";
+    c.style.left=Math.random()*100+"vw";
+    c.style.top="100vh";
+    c.style.fontSize="25px";
+    document.body.appendChild(c);
 
-    let move = setInterval(()=>{
-        heart.style.top = heart.offsetTop - 5 + "px";
-        if(heart.offsetTop < 0){
-            heart.remove();
-            clearInterval(move);
-        }
+    let move=setInterval(()=>{
+        c.style.top=c.offsetTop-5+"px";
+        if(c.offsetTop<0){c.remove();clearInterval(move);}
     },20);
 }
 
-// رسالة سرية
-function showSecret(){
-    document.getElementById("secret").style.display="block";
+// 💬 شات بسيط (محلي)
+function send(){
+    let msg = document.getElementById("msg").value;
+    if(msg=="") return;
+
+    let chat = document.getElementById("chat");
+    chat.innerHTML += "<div class='msg'>❤️ أنت: "+msg+"</div>";
+    document.getElementById("msg").value="";
 }
+
 </script>
 
 </body>
-      </html>
+    </html>
