@@ -2,21 +2,20 @@
 <html lang="ar">
 <head>
 <meta charset="UTF-8">
-<title>LoveSpace Pro ❤️</title>
+<title>LoveSpace 💖</title>
 
 <style>
 body {
     margin: 0;
     font-family: Arial;
-    background: radial-gradient(circle, #120018, #000);
-    color: white;
+    background: linear-gradient(135deg, #ffe6f0, #fff);
     text-align: center;
+    color: #444;
 }
 
-/* Neon Title */
+/* Header */
 h1 {
-    color: #ff2e7a;
-    text-shadow: 0 0 10px #ff2e7a, 0 0 20px #ff2e7a;
+    color: #ff4d88;
     margin-top: 20px;
 }
 
@@ -28,7 +27,7 @@ h1 {
 input {
     padding: 10px;
     border-radius: 10px;
-    border: none;
+    border: 1px solid #ff99bb;
     width: 200px;
 }
 
@@ -36,42 +35,48 @@ button {
     padding: 10px 15px;
     border: none;
     border-radius: 10px;
-    background: #ff2e7a;
+    background: #ff4d88;
     color: white;
     cursor: pointer;
     margin-top: 10px;
 }
 
-/* Neon Cards */
+/* Cards */
 .card {
-    background: rgba(255,255,255,0.05);
-    margin: 20px;
+    background: white;
+    margin: 15px;
     padding: 15px;
     border-radius: 15px;
-    box-shadow: 0 0 15px #ff2e7a33;
+    box-shadow: 0 5px 15px rgba(255, 77, 136, 0.2);
+}
+
+/* Hearts */
+.heart {
+    position: fixed;
+    color: #ff4d88;
+    font-size: 20px;
+    animation: float 3s linear forwards;
+}
+
+@keyframes float {
+    from { transform: translateY(0); opacity: 1; }
+    to { transform: translateY(-500px); opacity: 0; }
 }
 
 /* Gallery */
 img {
-    width: 100px;
-    height: 100px;
-    margin: 5px;
+    width: 90px;
+    height: 90px;
     border-radius: 10px;
+    margin: 5px;
     object-fit: cover;
 }
 
-/* Chat */
-.chat-box {
-    height: 200px;
-    overflow-y: scroll;
-    background: #111;
-    padding: 10px;
-    border-radius: 10px;
-}
-
-.msg {
-    text-align: left;
-    margin: 5px 0;
+/* Secret */
+.secret {
+    display: none;
+    color: #ff4d88;
+    margin-top: 10px;
 }
 
 /* Mobile */
@@ -83,34 +88,50 @@ img {
 
 <body>
 
-<!-- MUSIC -->
+<!-- 🎵 موسيقى -->
 <audio id="music" loop>
 <source src="music.mp3" type="audio/mp3">
 </audio>
 
-<!-- LOGIN -->
+<!-- 🔐 Login -->
 <div id="login" class="login">
-    <h2>🔐 دخول LoveSpace</h2>
+    <h2>💖 ادخل كلمة السر</h2>
     <input type="password" id="pass">
     <br>
     <button onclick="login()">دخول</button>
 </div>
 
-<!-- SITE -->
+<!-- 🌸 الموقع -->
 <div id="site" style="display:none;">
 
-<h1>❤️ LoveSpace Pro</h1>
+<h1>💖 LoveSpace</h1>
+<p>مكاننا الصغير الجميل ❤️</p>
 
 <div class="card">
-    <h3>⏳ عداد الحب</h3>
+    <h3>⏳ علاقتنا</h3>
     <p id="counter"></p>
 </div>
 
 <div class="card">
-    <h3>📸 ألبوم صور</h3>
+    <h3>📸 ذكرياتنا</h3>
     <img src="https://picsum.photos/100?1">
     <img src="https://picsum.photos/100?2">
     <img src="https://picsum.photos/100?3">
+</div>
+
+<div class="card">
+    <h3>💌 رسالة سرية</h3>
+    <button onclick="showSecret()">افتح الرسالة</button>
+    <div class="secret" id="secret">
+        بحبك أكتر من أي كلمة في الدنيا 💖
+    </div>
+</div>
+
+<div class="card">
+    <h3>🎵 الموسيقى</h3>
+    <button onclick="document.getElementById('music').play()">
+        تشغيل الموسيقى
+    </button>
 </div>
 
 <div class="card">
@@ -118,36 +139,23 @@ img {
     <button onclick="love()">بحبك</button>
 </div>
 
-<div class="card">
-    <h3>💬 شات بينكم (تجريبي)</h3>
-    <div class="chat-box" id="chat"></div>
-    <input id="msg" placeholder="اكتب رسالة">
-    <button onclick="send()">إرسال</button>
-</div>
-
 </div>
 
 <script>
 
-// 🔐 باسورد متغير يومي
-function getPass(){
-    let d = new Date().getDate();
-    return "love" + (1000 + d);
-}
-
+// 🔐 باسورد بسيط (تقدر تغيره)
 function login(){
     let p = document.getElementById("pass").value;
-    if(p === getPass()){
+    if(p === "love"){
         document.getElementById("login").style.display="none";
         document.getElementById("site").style.display="block";
-        document.getElementById("music").play();
         startCounter();
     } else {
-        alert("❌ باسورد غلط (جرب اليومي)");
+        alert("❌ كلمة السر غلط");
     }
 }
 
-// ⏳ عداد
+// ⏳ عداد حب
 let startDate = new Date("2024-01-01");
 
 function startCounter(){
@@ -156,37 +164,27 @@ function startCounter(){
         let diff = now - startDate;
         let days = Math.floor(diff / (1000*60*60*24));
         document.getElementById("counter").innerHTML =
-        "❤️ مع بعض من: " + days + " يوم";
+        "💖 مع بعض من: " + days + " يوم";
     },1000);
 }
 
 // ❤️ قلوب
 function love(){
-    let c = document.createElement("div");
-    c.innerHTML="❤️";
-    c.style.position="fixed";
-    c.style.left=Math.random()*100+"vw";
-    c.style.top="100vh";
-    c.style.fontSize="25px";
-    document.body.appendChild(c);
+    let h = document.createElement("div");
+    h.classList.add("heart");
+    h.innerHTML = "💖";
+    h.style.left = Math.random()*100 + "vw";
+    document.body.appendChild(h);
 
-    let move=setInterval(()=>{
-        c.style.top=c.offsetTop-5+"px";
-        if(c.offsetTop<0){c.remove();clearInterval(move);}
-    },20);
+    setTimeout(()=>{h.remove()},3000);
 }
 
-// 💬 شات بسيط (محلي)
-function send(){
-    let msg = document.getElementById("msg").value;
-    if(msg=="") return;
-
-    let chat = document.getElementById("chat");
-    chat.innerHTML += "<div class='msg'>❤️ أنت: "+msg+"</div>";
-    document.getElementById("msg").value="";
+// 💌 رسالة
+function showSecret(){
+    document.getElementById("secret").style.display="block";
 }
 
 </script>
 
 </body>
-    </html>
+</html>
